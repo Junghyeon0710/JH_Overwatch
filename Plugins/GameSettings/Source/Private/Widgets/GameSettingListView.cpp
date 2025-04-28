@@ -25,7 +25,7 @@ UGameSettingListView::UGameSettingListView(const FObjectInitializer& ObjectIniti
 void UGameSettingListView::ValidateCompiledDefaults(IWidgetCompilerLog& InCompileLog) const
 {
 	Super::ValidateCompiledDefaults(InCompileLog);
-
+	
 	if (!VisualData)
 	{
 		InCompileLog.Error(FText::Format(FText::FromString("{0} has no VisualData defined."), FText::FromString(GetName())));
