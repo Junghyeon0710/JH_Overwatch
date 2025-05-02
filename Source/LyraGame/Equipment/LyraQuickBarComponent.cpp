@@ -10,6 +10,7 @@
 #include "Inventory/InventoryFragment_EquippableItem.h"
 #include "NativeGameplayTags.h"
 #include "Net/UnrealNetwork.h"
+#include "ModularGameplay/Public/ModularGameplayModule.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(LyraQuickBarComponent)
 
