@@ -94,12 +94,9 @@ void ULyraTeamCreationComponent::ServerChooseTeamForPlayer(ALyraPlayerState* PS)
 	{
 		// 현재 맵 이름 가져오기
 		const FString CurrentMapName = GetWorld()->GetMapName();
-
-		// 접두어 제거 (예: UEDPIE_0_TrainingGround → TrainingGround)
-		FString ShortMapName = FPackageName::GetShortName(CurrentMapName);
-
+		
 		// 트레이닝 그라운드 맵이면 강제로 Team 1 할당
-		if (ShortMapName.Contains(TEXT("L_TrainingGround"))  && PS->IsABot())
+		if (CurrentMapName.Contains(TEXT("L_TrainingGround"))  && PS->IsABot())
 		{
 			PS->SetGenericTeamId(FGenericTeamId(2)); // Team 1
 		}
