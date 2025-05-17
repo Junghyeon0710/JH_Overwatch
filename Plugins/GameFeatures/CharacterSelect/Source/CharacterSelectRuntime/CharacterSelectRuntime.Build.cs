@@ -37,7 +37,8 @@ public class CharacterSelectRuntime : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"Slate",
-				"SlateCore",
+				"SlateCore", 
+				"LyraGame",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);
