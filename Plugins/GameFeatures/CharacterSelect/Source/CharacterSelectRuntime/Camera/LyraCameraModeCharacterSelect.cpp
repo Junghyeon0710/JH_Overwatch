@@ -19,20 +19,24 @@ void ULyraCameraModeCharacterSelect::UpdateView(float DeltaTime)
 	}
 
 	// ▶ 캐릭터 위치 (약간 위로)
-	FVector TargetLocation = TargetActor->GetActorLocation() + FVector(0.f, 0.f, 80.f);
+	FVector TargetLocation = TargetActor->GetActorLocation() + FVector(0.f, 0.f, TargetHeightOffset);
 
 	// ▶ 카메라를 캐릭터 앞에 위치시킴 (ForwardVector의 반대 방향 → 정면에서 바라보기)
-	FVector CameraOffset = -TargetActor->GetActorForwardVector() * CameraDistance;
+	FVector CameraOffset = TargetActor->GetActorForwardVector() * CameraDistance;
 
 	// ▶ 최종 카메라 위치 = 캐릭터 앞쪽 위치
 	FVector CameraLocation = TargetLocation + CameraOffset;
 
 	// ▶ 카메라가 캐릭터를 바라보도록 회전
-	FRotator CameraRotation = (TargetLocation - CameraLocation).Rotation();
+	FRotator CameraRotation = (TargetActor->GetActorLocation() - CameraLocation).Rotation();
+	
+	// ▶ 아래로 약간 기울임
+	CameraRotation.Pitch = 0;
+	CameraRotation.Pitch += LookDownAngleOffset;
 
 	// ▶ View 세팅
 	View.Location = CameraLocation;
 	View.Rotation = CameraRotation;
-	View.ControlRotation = CameraRotation;
+//	View.ControlRotation = View.Rotation;
 	View.FieldOfView = FieldOfView;
 }

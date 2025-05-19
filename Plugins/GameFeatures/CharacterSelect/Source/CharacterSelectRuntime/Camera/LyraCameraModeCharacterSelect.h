@@ -20,6 +20,13 @@ public:
 protected:
 	virtual void UpdateView(float DeltaTime) override;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "Third Person")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Character Select Camera")
 	float CameraDistance;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Character Select Camera")
+	float TargetHeightOffset = 80.f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Character Select Camera")
+	float LookDownAngleOffset = 10.f;
+	
 };
