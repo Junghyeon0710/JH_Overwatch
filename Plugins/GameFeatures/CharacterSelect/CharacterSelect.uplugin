@@ -23,5 +23,12 @@
 		}
 	],
 	"ExplicitlyLoaded": true,
-	"BuiltInInitialFeatureState": "Active"
+	"BuiltInInitialFeatureState": "Active",
+
+	"Plugins": [
+		{
+			"Name": "ShooterCore",
+			"Enabled": true
+		}
+	]
 }

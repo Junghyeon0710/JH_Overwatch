@@ -347,6 +347,10 @@
 		{
 			"Name": "RuntimeTests",
 			"Enabled": true
+		},
+		{
+			"Name": "CharacterSelect",
+			"Enabled": true
 		}
 	],
 	"EpicSampleNameHash": "451731683"
