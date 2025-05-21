@@ -280,6 +280,7 @@ void ULyraAbilitySystemComponent::ProcessAbilityInput(float DeltaTime, bool bGam
 	//
 	for (const FGameplayAbilitySpecHandle& AbilitySpecHandle : AbilitiesToActivate)
 	{
+
 		TryActivateAbility(AbilitySpecHandle);
 	}
 
