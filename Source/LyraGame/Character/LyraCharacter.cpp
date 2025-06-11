@@ -16,6 +16,7 @@
 #include "Player/LyraPlayerState.h"
 #include "System/LyraSignificanceManager.h"
 #include "TimerManager.h"
+#include "UltimateComponent.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(LyraCharacter)
 
@@ -68,6 +69,8 @@ ALyraCharacter::ALyraCharacter(const FObjectInitializer& ObjectInitializer)
 	HealthComponent = CreateDefaultSubobject<ULyraHealthComponent>(TEXT("HealthComponent"));
 	HealthComponent->OnDeathStarted.AddDynamic(this, &ThisClass::OnDeathStarted);
 	HealthComponent->OnDeathFinished.AddDynamic(this, &ThisClass::OnDeathFinished);
+
+	UltimateComponent = CreateDefaultSubobject<UUltimateComponent>(TEXT("UltimateComponent"));
 
 	CameraComponent = CreateDefaultSubobject<ULyraCameraComponent>(TEXT("CameraComponent"));
 	CameraComponent->SetRelativeLocation(FVector(-300.0f, 0.0f, 75.0f));
@@ -200,13 +203,14 @@ void ALyraCharacter::OnAbilitySystemInitialized()
 	check(LyraASC);
 
 	HealthComponent->InitializeWithAbilitySystem(LyraASC);
-
+	UltimateComponent->InitializeWithAbilitySystem(LyraASC);
 	InitializeGameplayTags();
 }
 
 void ALyraCharacter::OnAbilitySystemUninitialized()
 {
 	HealthComponent->UninitializeFromAbilitySystem();
+	UltimateComponent->UninitializeFromAbilitySystem();
 }
 
 void ALyraCharacter::PossessedBy(AController* NewController)

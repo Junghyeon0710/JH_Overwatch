@@ -349,7 +349,7 @@ FHitResult ULyraGameplayAbility_RangedWeapon::DoSingleBulletTrace(const FVector&
 	return Impact;
 }
 
-void ULyraGameplayAbility_RangedWeapon::PerformLocalTargeting(OUT TArray<FHitResult>& OutHits)
+void ULyraGameplayAbility_RangedWeapon::PerformLocalTargeting(OUT TArray<FHitResult>& OutHits, AActor* Enemy)
 {
 	APawn* const AvatarPawn = Cast<APawn>(GetAvatarActorFromActorInfo());
 
@@ -364,9 +364,14 @@ void ULyraGameplayAbility_RangedWeapon::PerformLocalTargeting(OUT TArray<FHitRes
 		const FTransform TargetTransform = GetTargetingTransform(AvatarPawn, ELyraAbilityTargetingSource::CameraTowardsFocus);
 		InputData.AimDir = TargetTransform.GetUnitAxis(EAxis::X);
 		InputData.StartTrace = TargetTransform.GetTranslation();
-
-		InputData.EndAim = InputData.StartTrace + InputData.AimDir * WeaponData->GetMaxDamageRange();
-
+		if (Enemy)
+		{
+			InputData.EndAim = Enemy->GetActorLocation();
+		}
+		else
+		{
+			InputData.EndAim = InputData.StartTrace + InputData.AimDir * WeaponData->GetMaxDamageRange();
+		}
 #if ENABLE_DRAW_DEBUG
 		if (LyraConsoleVariables::DrawBulletTracesDuration > 0.0f)
 		{
@@ -396,7 +401,8 @@ void ULyraGameplayAbility_RangedWeapon::TraceBulletsInCartridge(const FRangedWea
 
 		const FVector BulletDir = VRandConeNormalDistribution(InputData.AimDir, HalfSpreadAngleInRadians, WeaponData->GetSpreadExponent());
 
-		const FVector EndTrace = InputData.StartTrace + (BulletDir * WeaponData->GetMaxDamageRange());
+		//const FVector EndTrace = InputData.StartTrace + (BulletDir * WeaponData->GetMaxDamageRange());
+		const FVector EndTrace = InputData.EndAim;
 		FVector HitLocation = EndTrace;
 
 		TArray<FHitResult> AllImpacts;
@@ -549,7 +555,7 @@ void ULyraGameplayAbility_RangedWeapon::OnTargetDataReadyCallback(const FGamepla
 	MyAbilityComponent->ConsumeClientReplicatedTargetData(CurrentSpecHandle, CurrentActivationInfo.GetActivationPredictionKey());
 }
 
-void ULyraGameplayAbility_RangedWeapon::StartRangedWeaponTargeting()
+void ULyraGameplayAbility_RangedWeapon::StartRangedWeaponTargeting(AActor* Enemy)
 {
 	check(CurrentActorInfo);
 
@@ -566,7 +572,7 @@ void ULyraGameplayAbility_RangedWeapon::StartRangedWeaponTargeting()
 	FScopedPredictionWindow ScopedPrediction(MyAbilityComponent, CurrentActivationInfo.GetActivationPredictionKey());
 
 	TArray<FHitResult> FoundHits;
-	PerformLocalTargeting(/*out*/ FoundHits);
+	PerformLocalTargeting(/*out*/ FoundHits,Enemy);
 
 	// Fill out the target data from the hit results
 	FGameplayAbilityTargetDataHandle TargetData;

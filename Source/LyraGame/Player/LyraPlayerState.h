@@ -156,6 +156,8 @@ private:
 	// Combat attribute set used by this actor.
 	UPROPERTY()
 	TObjectPtr<const class ULyraCombatSet> CombatSet;
+	UPROPERTY()
+	TObjectPtr<const class UUltimateSet> UltimateSet;
 
 	UPROPERTY(Replicated)
 	ELyraPlayerConnectionType MyPlayerConnectionType;

@@ -22,6 +22,7 @@ void ULyraAnimInstance::InitializeWithAbilitySystem(UAbilitySystemComponent* ASC
 	check(ASC);
 
 	GameplayTagPropertyMap.Initialize(this, ASC);
+	
 }
 
 #if WITH_EDITOR

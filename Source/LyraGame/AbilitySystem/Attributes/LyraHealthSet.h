@@ -94,4 +94,7 @@ private:
 	// Incoming damage. This is mapped directly to -Health
 	UPROPERTY(BlueprintReadOnly, Category="Lyra|Health", Meta=(HideFromModifiers, AllowPrivateAccess=true))
 	FGameplayAttributeData Damage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Lyra|Health", Meta = (AllowPrivateAccess = true))
+	TSubclassOf<UGameplayEffect> UltimateEffectClass;
 };

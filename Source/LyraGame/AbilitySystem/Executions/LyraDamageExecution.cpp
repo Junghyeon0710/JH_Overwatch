@@ -7,6 +7,7 @@
 #include "AbilitySystem/LyraAbilitySourceInterface.h"
 #include "Engine/World.h"
 #include "LyraLogChannels.h"
+#include "AbilitySystem/Attributes/UltimateSet.h"
 #include "Teams/LyraTeamSubsystem.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(LyraDamageExecution)
@@ -134,6 +135,9 @@ void ULyraDamageExecution::Execute_Implementation(const FGameplayEffectCustomExe
 	{
 		// Apply a damage modifier, this gets turned into - health on the target
 		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(ULyraHealthSet::GetDamageAttribute(), EGameplayModOp::Additive, DamageDone));
+		// const float UltimateGain = DamageDone * 0.1;
+		// OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(UUltimateSet::GetUltGaugeAttribute(), EGameplayModOp::Additive, UltimateGain));
+
 	}
 #endif // #if WITH_SERVER_CODE
 }

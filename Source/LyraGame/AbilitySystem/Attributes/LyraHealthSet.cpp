@@ -1,12 +1,15 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "LyraHealthSet.h"
+
+#include "AbilitySystemGlobals.h"
 #include "AbilitySystem/Attributes/LyraAttributeSet.h"
 #include "LyraGameplayTags.h"
 #include "Net/UnrealNetwork.h"
 #include "AbilitySystem/LyraAbilitySystemComponent.h"
 #include "Engine/World.h"
 #include "GameplayEffectExtension.h"
+#include "AbilitySystem/GameplayEffect/GE_UltimateGain.h"
 #include "Messages/LyraVerbMessage.h"
 #include "GameFramework/GameplayMessageSubsystem.h"
 
@@ -142,6 +145,23 @@ void ULyraHealthSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackD
 
 			UGameplayMessageSubsystem& MessageSystem = UGameplayMessageSubsystem::Get(GetWorld());
 			MessageSystem.BroadcastMessage(Message.Verb, Message);
+		}
+		if (Instigator)
+		{
+			UAbilitySystemComponent* InstigatorASC = UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(Instigator);
+			if (InstigatorASC)
+			{
+				// 게이지 상승 수치 계산
+				const float GainAmount = FMath::Abs(Data.EvaluatedData.Magnitude) * 0.1f;
+
+				// GE Spec 생성
+				FGameplayEffectSpecHandle SpecHandle = InstigatorASC->MakeOutgoingSpec(UGE_UltimateGain::StaticClass(), 1.0f, InstigatorASC->MakeEffectContext());
+				if (SpecHandle.IsValid())
+				{
+					SpecHandle.Data->SetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("SetByCaller.Damage")), GainAmount);
+					InstigatorASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
+				}
+			}
 		}
 
 		// Convert into -Health and then clamp

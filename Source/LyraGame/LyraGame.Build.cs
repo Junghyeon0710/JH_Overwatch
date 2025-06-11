@@ -73,7 +73,7 @@ public class LyraGame : ModuleRules
 				"AudioModulation",
 				"EngineSettings",
 				"DTLSHandlerComponent",
-				"Json",
+				"Json", "ShaderConductor",
 			}
 		);
 

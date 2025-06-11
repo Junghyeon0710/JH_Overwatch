@@ -104,7 +104,7 @@ protected:
 	// Determine the trace channel to use for the weapon trace(s)
 	virtual ECollisionChannel DetermineTraceChannel(FCollisionQueryParams& TraceParams, bool bIsSimulated) const;
 
-	void PerformLocalTargeting(OUT TArray<FHitResult>& OutHits);
+	void PerformLocalTargeting(OUT TArray<FHitResult>& OutHits, AActor* Enemy = nullptr);
 
 	FVector GetWeaponTargetingSourceLocation() const;
 	FTransform GetTargetingTransform(APawn* SourcePawn, ELyraAbilityTargetingSource Source) const;
@@ -112,7 +112,7 @@ protected:
 	void OnTargetDataReadyCallback(const FGameplayAbilityTargetDataHandle& InData, FGameplayTag ApplicationTag);
 
 	UFUNCTION(BlueprintCallable)
-	void StartRangedWeaponTargeting();
+	void StartRangedWeaponTargeting(AActor* Enemy = nullptr);
 
 	// Called when target data is ready
 	UFUNCTION(BlueprintImplementableEvent)
