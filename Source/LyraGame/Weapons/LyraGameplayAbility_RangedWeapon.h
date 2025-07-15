@@ -107,6 +107,7 @@ protected:
 	void PerformLocalTargeting(OUT TArray<FHitResult>& OutHits, AActor* Enemy = nullptr);
 
 	FVector GetWeaponTargetingSourceLocation() const;
+	UFUNCTION(BlueprintCallable, Category="Lyra|Ability")
 	FTransform GetTargetingTransform(APawn* SourcePawn, ELyraAbilityTargetingSource Source) const;
 
 	void OnTargetDataReadyCallback(const FGameplayAbilityTargetDataHandle& InData, FGameplayTag ApplicationTag);
